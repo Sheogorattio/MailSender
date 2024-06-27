@@ -1,0 +1,54 @@
+﻿@model MailSender.Models.EmailViewModel
+@{
+    ViewBag.Title = "Отправка Email";
+}
+
+<h2>Отправка Email</h2>
+
+@using (Html.BeginForm("SendEmail", "Email", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Recipients, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Recipients, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Recipients, "", new { @class = "text-danger" })
+                <p class="help-block">Введите адреса электронной почты через точку с запятой (;)</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Subject, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Subject, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Body, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Body, new { @class = "form-control", rows = 10 })
+                @Html.ValidationMessageFor(model => model.Body, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Attachments, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="file" name="Attachments" multiple />
+                @Html.ValidationMessageFor(model => model.Attachments, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Отправить" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
